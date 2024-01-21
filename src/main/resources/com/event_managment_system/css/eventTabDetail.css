@@ -1,0 +1,57 @@
+/* eventTabDetail.css */
+
+/* Root AnchorPane */
+#mainPane {
+    -fx-background-color: #f0f0f0; /* Set background color */
+    -fx-border-color: #ccc; /* Set border color */
+    -fx-effect: dropshadow(gaussian, #666, 5, 0, 10, 5); /* Add box shadow */
+}
+
+/* HBox styling */
+#eventContainer {
+    -fx-spacing: 20; /* Set spacing between children */
+    -fx-padding: 20; /* Set padding */
+}
+
+/* ImageView styling */
+#eventLogo {
+    -fx-effect: dropshadow(three-pass-box, #666, 2, 0, 2, 2); /* Add drop shadow */
+}
+
+/* VBox styling */
+#infoContainer {
+    -fx-spacing: 10; /* Set spacing between children */
+}
+
+/* Label styling */
+#titleLabel {
+    -fx-font-size: 32; /* Increase font size */
+    -fx-font-weight: bold; /* Set font weight */
+    -fx-text-fill: #091c73; /* Set text color */
+    -fx-margin-bottom: 15; /* Set margin bottom for space */
+}
+
+.label-text {
+    -fx-font-size: 20; /* Increase font size */
+    -fx-font-weight: normal; /* Set font weight */
+    -fx-text-fill: #555; /* Set text color */
+    -fx-margin-bottom: 10; /* Set margin bottom for space */
+}
+
+.label-heading {
+    -fx-font-size: 24; /* Increase font size */
+    -fx-font-weight: bold; /* Set font weight */
+    -fx-text-fill: #0080ff; /* Set text color */
+    -fx-margin-bottom: 12; /* Set margin bottom for space */
+}
+
+/* Improve overall spacing */
+.separator {
+    -fx-padding: 15 0; /* Add padding to separators */
+}
+
+/* Hover effect for the whole container */
+#mainPane:hover {
+    -fx-background-color: #e0e0e0; /* Light background on hover */
+    -fx-border-color: #999; /* Darker border on hover */
+}
