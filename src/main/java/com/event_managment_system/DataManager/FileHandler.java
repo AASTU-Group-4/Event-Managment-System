@@ -2,13 +2,7 @@ package com.event_managment_system.DataManager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.event_managment_system.entities.root;
-
 import java.io.*;
-import java.net.URISyntaxException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +20,7 @@ public class FileHandler<T extends root> {
         this.dataMap = new HashMap<>();
         loadFromFile();
     }
-    
+
     public void loadFromFile() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
             this.data = (List<T>) ois.readObject();
@@ -40,10 +34,6 @@ public class FileHandler<T extends root> {
         }
     }
 
-    public void setData(List<T>inData){
-        this.data=inData;
-    }
-
     public T getItemById(UUID id) {
         return dataMap.get(id);
     }
@@ -55,7 +45,10 @@ public class FileHandler<T extends root> {
             e.printStackTrace();
         }
     }
-
+    public void setData(List<T> inData) {
+        this.data = inData;
+    }
+    
     public void addItem(T item) {
         this.data.add(item);
         saveToFile();
@@ -85,7 +78,6 @@ public class FileHandler<T extends root> {
     public void download() {
         ObjectMapper objectMapper = new ObjectMapper();
         File jsonFile = new File(fileName.replace(".dat", ".json"));
-
         try {
             objectMapper.writeValue(jsonFile, data);
             System.out.println("Download successful.");

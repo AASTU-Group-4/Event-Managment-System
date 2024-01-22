@@ -51,10 +51,8 @@ public class DataPopulator {
         // Link attendees to events
         linkAttendeesToEvents();
 
-        // Link eventsOrganized to organizers
         linkEventsOrganizedToOrganizers();
 
-        // Update organizers and events with image URLs
         updateOrganizersWithImageURLs();
         updateEventsWithImageURLs();
         organizerFileHandler.setData(allOrganizers);

@@ -27,9 +27,9 @@
                         <Image url="@image/logo-removebg.png" />
                      </image>
                   </ImageView>
-                  <HBox layoutX="537.0" layoutY="10.0" prefHeight="84.0" prefWidth="299.0" AnchorPane.rightAnchor="24.0">
+                  <HBox layoutX="537.0" layoutY="10.0" prefHeight="108.0" prefWidth="401.0" AnchorPane.rightAnchor="36.0">
                      <children>
-                        <Label id="userNameLabel" fx:id="userNameLabel" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="108.0" prefWidth="161.0" text="user name">
+                        <Label id="userNameLabel" fx:id="userNameLabel" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="108.0" prefWidth="272.0" text="user name">
                            <font>
                               <Font name="NotoMono NF" size="13.0" />
                            </font></Label>
@@ -72,7 +72,7 @@
                            <children>
                               <VBox id="eventVBox" fx:id="organizerVBox" prefHeight="584.0" prefWidth="850.0">
                                  <children>
-                                    <ChoiceBox id="filterChoiceBox" fx:id="filterChoiceBox2" onAction="#handleFilterChange" prefWidth="150.0" />
+                                    <ChoiceBox id="filterChoiceBox" fx:id="filterChoiceBox2" onAction="#handleFilterChange2" prefWidth="150.0" />
                                     <ScrollPane fx:id="organizerScrollPane1" hbarPolicy="NEVER" onScroll="#handleScroll" prefHeight="569.0" prefWidth="850.0">
                                        <content>
                                           <VBox id="eventContentVBox" fx:id="organizerContentVBox1" prefHeight="555.0" prefWidth="836.0" spacing="15.0">
@@ -94,7 +94,7 @@
                            <children>
                               <VBox id="eventVBox" fx:id="searchVBox" prefHeight="584.0" prefWidth="850.0">
                                  <children>
-                                    <ChoiceBox id="filterChoiceBox" fx:id="filterChoiceBox3" onAction="#handleFilterChange" prefWidth="150.0" />
+                                    <ChoiceBox id="filterChoiceBox" fx:id="filterChoiceBox3"  prefWidth="150.0" />
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="850.0" spacing="5.0">
                                        <children>
                                           <TextField id="SearchKeyInput" fx:id="SearchKeyInput" prefHeight="42.0" prefWidth="308.0" />

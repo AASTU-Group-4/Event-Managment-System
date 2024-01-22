@@ -1,18 +1,17 @@
 package com.event_managment_system;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
 import java.io.IOException;
 
 import com.event_managment_system.DataManager.FileHandler;
 import com.event_managment_system.entities.Attendee;
 import com.event_managment_system.entities.Event;
 import com.event_managment_system.entities.Organizer;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class App extends Application {
 
