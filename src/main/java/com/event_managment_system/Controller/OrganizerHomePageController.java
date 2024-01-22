@@ -1,12 +1,10 @@
 package com.event_managment_system.Controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -18,26 +16,25 @@ import com.event_managment_system.entities.Organizer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.fxml.Initializable;
 
-public class AttendeeHomePageController implements Initializable{
+public class OrganizerHomePageController implements Initializable {
 
-    @FXML
+     @FXML
     private Pane mainPane;
 
     @FXML
@@ -82,22 +79,10 @@ public class AttendeeHomePageController implements Initializable{
 
     // Organizer Tab
     @FXML
-    private Tab BrowseOrganizer;
+    private Tab NewEvent;
 
     @FXML
-    private AnchorPane organizerAnchorPane;
-
-    @FXML
-    private VBox organizerVBox;
-
-    @FXML
-    private ChoiceBox<String> filterChoiceBox2;
-
-    @FXML
-    private ScrollPane organizerScrollPane1;
-
-    @FXML
-    private VBox organizerContentVBox1;
+    private AnchorPane NewEventAnchorPane;
 
     // Search Tab
     @FXML
@@ -141,28 +126,29 @@ public class AttendeeHomePageController implements Initializable{
 
 
     private String[] browseChoise={"Upcoming", "Previous", "Regesterd", "History"};
-    private String[] orgbrowseChoise={"A-Z", "Z-A"};
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         App.stage.setWidth(850);
         App.stage.setHeight(750);
-        this.userNameLabel.setText(App.user.getFullName());
+        this.userNameLabel.setText(App.org.getName());
+    }
+
+    
+    private static Date parseDate(String dateString, SimpleDateFormat dateFormat) {
+        try {
+            return dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void browseEvent() {
         this.filterChoiceBox.getItems().addAll(browseChoise);
         this.filterChoiceBox.setValue(browseChoise[0]);
-        this.eventContentVBox.getChildren().clear();
     }
 
-    public void browseOrganizer() {
-
-        this.filterChoiceBox2.getItems().addAll(orgbrowseChoise);
-        this.filterChoiceBox2.setValue(orgbrowseChoise[0]);
-        this.organizerContentVBox1.getChildren().clear();
-    }
-    
     public void addToeventContentVBox(Event event){
         FXMLLoader fxml = new FXMLLoader(App.class.getResource("eventTabDetail.fxml"));
         try {
@@ -171,29 +157,22 @@ public class AttendeeHomePageController implements Initializable{
             etd.initialize(event, this.eventContentVBox);
             this.eventContentVBox.getChildren().add(ap);
         } catch (IOException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
     }
-    public void addToOrganizerContentVBox(Organizer organizer){
-        FXMLLoader fxml = new FXMLLoader(App.class.getResource("OrganizerTabDetail.fxml"));
-        try {
-            Parent ap = fxml.load();
-            OrganizerTabDetail etd = fxml.getController();
-            etd.initialize(organizer, this.organizerContentVBox1);
-            this.organizerContentVBox1.getChildren().add(ap);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    } 
     public void handleFilterChange(ActionEvent event) {
         String selectedFilter = filterChoiceBox.getValue();
+        System.out.println(selectedFilter);
     }
 
     public void handleScroll(ScrollEvent event) {
         double vValue = eventScrollPane.getVvalue();
+
         if (vValue > SCROLL_THRESHOLD && !loading) {
             eventScrollPane.setVvalue(0.7);
         }
     }
+    
 }

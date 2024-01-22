@@ -86,6 +86,10 @@ public class Organizer implements Serializable, root {
         this.description = description;
         updateTimestamp();
     }
+    
+    public void addLogoUrls(String url){
+        this.logoUrls.add(url);
+    }
 
     public List<String> getLogoUrls() {
         return logoUrls;

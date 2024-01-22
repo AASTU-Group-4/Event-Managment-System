@@ -127,7 +127,10 @@ public class Event implements Serializable , root{
     public List<String> getEventImageUrl() {
         return eventImageUrl;
     }
-
+    public void addEventImageUrl(String url){
+        this.eventImageUrl.add(url);
+    }
+    
     public void setEventImageUrl(List<String> eventImageUrl) {
         this.eventImageUrl = eventImageUrl;
         updateTimestamp();
