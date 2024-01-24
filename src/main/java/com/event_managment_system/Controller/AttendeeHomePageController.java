@@ -145,68 +145,74 @@ public class AttendeeHomePageController implements Initializable{
 
     @FXML
     private VBox accountVBox;
+
     private static final double SCROLL_THRESHOLD = 0.75;
     private boolean loading = false;
 
     private Deque<Event> EventStack = new ArrayDeque<>();
     private Deque<Organizer> OrganizerStack = new ArrayDeque<>();
+
     private String[] browseChoise={"Upcoming", "Previous", "Regesterd", "History"};
     private String[] orgbrowseChoise={"A-Z", "Z-A"};
+    private String[] searchChoise={"Organizer", "Event"};
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         App.stage.setWidth(850);
         App.stage.setHeight(750);
         this.userNameLabel.setText(App.user.getFullName());
+
+        this.filterChoiceBox2.getItems().addAll(orgbrowseChoise);
+        this.filterChoiceBox2.setValue(orgbrowseChoise[0]);
+
+        this.filterChoiceBox.getItems().addAll(browseChoise);
+        this.filterChoiceBox.setValue(browseChoise[0]);
+
+        this.filterChoiceBox3.getItems().addAll(this.searchChoise);
+        this.filterChoiceBox3.setValue(searchChoise[0]);
+
         try {
-            // Load a local image for testing
             Image originalImage = new Image("https://picsum.photos/10/10?random=728");
             this.profilePic.setImage(originalImage);
             this.profilePic.setFitWidth(150);
             this.profilePic.setFitHeight(100);
-            this.filterChoiceBox2.getItems().clear();
-            this.filterChoiceBox2.getItems().addAll(orgbrowseChoise);
-            this.filterChoiceBox2.setValue(orgbrowseChoise[0]);
+        
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-    public void browseEvent() {
-        this.filterChoiceBox.getItems().clear();
-        this.filterChoiceBox.getItems().addAll(browseChoise);
-        this.filterChoiceBox.setValue(browseChoise[0]);
+    public void addToeventContentVBox(Event event){
+        EventTabDetail newTab=new EventTabDetail(event);
+        newTab.setOnMouseClicked(e->fullDisplay(event));
+        this.eventContentVBox.getChildren().add(newTab);
     }
 
-    public void browseOrganizer() {
-        this.filterChoiceBox2.getItems().clear();
-        this.filterChoiceBox2.getItems().addAll(orgbrowseChoise);
-        this.filterChoiceBox2.setValue(orgbrowseChoise[0]);
+    public void fullDisplay(Event event){
+        loading=true;
+        eventScrollPane.setVvalue(0);
+        tabPane.getSelectionModel().select(tabPane.getTabs().get(0));
+        this.eventContentVBox.getChildren().clear();
+        this.eventContentVBox.getChildren().add(new EventFullInfo(event));
     }
-    
-    public void addToeventContentVBox(Event event){
-        FXMLLoader fxml = new FXMLLoader(App.class.getResource("eventTabDetail.fxml"));
-        try {
-            Parent ap = fxml.load();
-            eventTabDetail etd = fxml.getController();
-            etd.initialize(event, this.eventContentVBox);
-            this.eventContentVBox.getChildren().add(ap);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }  
-    }
+
     public void addToOrganizerContentVBox(Organizer organizer){
-        FXMLLoader fxml = new FXMLLoader(App.class.getResource("OrganizerTabDetail.fxml"));
-        try {
-            Parent ap = fxml.load();
-            OrganizerTabDetail etd = fxml.getController();
-            etd.initialize(organizer, this.organizerContentVBox1);
-            this.organizerContentVBox1.getChildren().add(ap);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    } 
+        OrganizerTabDetail newTab=new OrganizerTabDetail(organizer);
+        this.organizerContentVBox1.getChildren().add(newTab);
+    }
+    public void addToeventSearchContentVBox(Event event){
+        EventTabDetail newTab=new EventTabDetail(event);
+        newTab.setOnMouseClicked(e->fullDisplay(event));
+        this.SearchContentVBox11.getChildren().add(newTab);
+    }
+
+    public void addToSearchOrganizerContentVBox(Organizer organizer){
+        OrganizerTabDetail newTab=new OrganizerTabDetail(organizer);
+        this.SearchContentVBox11.getChildren().add(newTab);
+    }  
+
     public void handleFilterChange(ActionEvent event) {
+        loading=false;
         String selectedFilter = filterChoiceBox.getValue();
         if (selectedFilter.equals(browseChoise[0])) {
             this.eventContentVBox.getChildren().clear();
@@ -274,17 +280,16 @@ public class AttendeeHomePageController implements Initializable{
         }
     }
     public void handleFilterChange2(ActionEvent event) {
+        loading=false;
         String selectedFilter = filterChoiceBox2.getValue();
         if (selectedFilter.equals(orgbrowseChoise[0])) {
             this.organizerContentVBox1.getChildren().clear();
             OrganizerStack.clear();
+
             List<Organizer> organizers = new ArrayList<>(App.OrganizerFile.getAllItems());
             Collections.sort(organizers, Comparator.comparing(Organizer::getName));
 
             OrganizerStack = new ArrayDeque<>(organizers);
-
-            this.organizerContentVBox1.getChildren().clear();
-            OrganizerStack.clear();
 
             for (int i = 0; i < 5; i++) {
                 if (!OrganizerStack.isEmpty()) {
@@ -302,9 +307,6 @@ public class AttendeeHomePageController implements Initializable{
 
             OrganizerStack = new ArrayDeque<>(organizers);
 
-            this.organizerContentVBox1.getChildren().clear();
-            OrganizerStack.clear();
-
             for (int i = 0; i < 5; i++) {
                 if (!OrganizerStack.isEmpty()) {
                     addToOrganizerContentVBox(OrganizerStack.pop());
@@ -314,8 +316,6 @@ public class AttendeeHomePageController implements Initializable{
             }
         }
     }
-
-
     public void handleScroll(ScrollEvent event) {
         double vValue = eventScrollPane.getVvalue();
         if (vValue > SCROLL_THRESHOLD && !loading && !EventStack.isEmpty()) {
@@ -332,4 +332,34 @@ public class AttendeeHomePageController implements Initializable{
             loading=false;
         }
     }
+    public void filterChanged(ActionEvent e){
+        SearchContentVBox11.getChildren().clear();
+    }
+    public void Search() {
+        String filter = this.filterChoiceBox3.getValue();
+        String searchKey = this.SearchKeyInput.getText();
+        
+        if (searchKey == null || searchKey.isEmpty()) {
+            return;
+        }
+    
+        if (filter.equals(searchChoise[0])) {
+            this.SearchContentVBox11.getChildren().clear();
+            for (Organizer organizer : App.OrganizerFile.getAllItems()) {
+                if (organizer.getName().length() >= searchKey.length() && organizer.getName().substring(0, searchKey.length()).toLowerCase().equals(searchKey.toLowerCase())) {
+                    addToSearchOrganizerContentVBox(organizer);
+                }
+            }
+        } else {
+            this.SearchContentVBox11.getChildren().clear();
+            for (Event event : App.eventFile.getAllItems()) {
+                // Check if the length of the title is greater than or equal to the length of the search key
+                if (event.getTitle().length() >= searchKey.length() &&
+                    event.getTitle().substring(0, searchKey.length()).toLowerCase().equals(searchKey.toLowerCase())) {
+                    addToeventSearchContentVBox(event);
+                }
+            }
+        }
+    }
+    
 }

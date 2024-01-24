@@ -2,10 +2,11 @@ module com.event_managment_system {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.fasterxml.jackson.databind;
+    requires javafx.base;
 
     opens com.event_managment_system to javafx.fxml, com.fasterxml.jackson.databind;
     opens com.event_managment_system.Controller to javafx.fxml, com.fasterxml.jackson.databind;
-    opens com.event_managment_system.entities to com.fasterxml.jackson.databind; // Export the entities package
+    opens com.event_managment_system.entities to com.fasterxml.jackson.databind; 
 
     exports com.event_managment_system;
     exports com.event_managment_system.Controller;

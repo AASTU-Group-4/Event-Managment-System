@@ -149,6 +149,9 @@ public class Event implements Serializable , root{
         this.attendees.add(attendee.getId());
         updateTimestamp();
     }
+    public boolean isFull(){
+        return this.attendees.size()<capacity? false:true;
+    }
 
     private void updateTimestamp() {
         this.lastUpdateTimestamp = new Date();

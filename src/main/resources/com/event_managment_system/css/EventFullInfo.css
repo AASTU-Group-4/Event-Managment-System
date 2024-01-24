@@ -1,0 +1,118 @@
+/* EventFullInfo.css */
+
+#MainContentHbox{
+    -fx-spacing: 3;
+}
+
+#mainLeftContent {
+    -fx-background-color: #ffffff;
+    -fx-border-width: 1;
+    -fx-border-color: #cccccc;
+}
+
+#LogoImage {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.0, 0, 2);
+}
+
+#ImageListScrollPane {
+    -fx-background-color: #f9f9f9;
+}
+
+#mainRightContent {
+    -fx-background-color: #ffffff;
+    -fx-border-width: 1;
+    -fx-border-color: #cccccc;
+    -fx-padding: 10;
+}
+
+#eventTitleLable {
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+#DescriptionLable {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-text-fill: #666666;
+}
+
+#eventDescriptionLable {
+    -fx-font-size: 16;
+    -fx-text-fill: #333333;
+}
+
+#tagLable {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-text-fill: #666666;
+}
+
+#eventTagListHbox {
+    -fx-spacing: 5;
+}
+
+#eventInfoGride {
+    -fx-padding: 10;
+}
+
+#DateTimeLable,
+#VenueLable,
+#RegistrationEndLable,
+#lastUpdateLable {
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+#eventDateTimeLable,
+#eventVenueLable,
+#eventRegistrationEndLable,
+#eventlastUpdateLable {
+    -fx-font-size: 14;
+    -fx-text-fill: #333333;
+}
+
+#AgendaLable {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-text-fill: #666666;
+}
+
+#eventAgendaTable {
+    -fx-table-cell-border-color: derive(-fx-base, 10%);
+    -fx-table-header-border-color: derive(-fx-base, 10%);
+}
+
+#eventActivityColumn,
+#eventStartTimeColumn,
+#eventEndTimeColumn {
+    -fx-alignment: CENTER;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+/* Additional Styles */
+
+#eventTagListScrollPane {
+    -fx-background-color: #f9f9f9;
+}
+
+#eventTagListScrollPane .scroll-pane-content {
+    -fx-padding: 5;
+}
+
+#eventTagListScrollPane .scroll-bar {
+    -fx-background-color: #e0e0e0;
+}
+
+#eventTagListScrollPane .scroll-bar-thumb {
+    -fx-background-color: #888888;
+}
+
+#eventTagListScrollPane .scroll-bar-track {
+    -fx-background-color: #f0f0f0;
+}
+
+/* You can add more styles for other elements as needed */

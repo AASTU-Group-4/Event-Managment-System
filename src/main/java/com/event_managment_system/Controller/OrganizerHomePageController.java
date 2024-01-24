@@ -150,17 +150,8 @@ public class OrganizerHomePageController implements Initializable {
     }
 
     public void addToeventContentVBox(Event event){
-        FXMLLoader fxml = new FXMLLoader(App.class.getResource("eventTabDetail.fxml"));
-        try {
-            Parent ap = fxml.load();
-            eventTabDetail etd = fxml.getController();
-            etd.initialize(event, this.eventContentVBox);
-            this.eventContentVBox.getChildren().add(ap);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
+        EventTabDetail newTab=new EventTabDetail(event);
+        this.eventContentVBox.getChildren().add(newTab);
     }
     public void handleFilterChange(ActionEvent event) {
         String selectedFilter = filterChoiceBox.getValue();

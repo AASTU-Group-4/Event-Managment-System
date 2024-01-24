@@ -15,14 +15,14 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
-    public static final String StorgePath="/com/event_managment_system/Storage/";
+    public static final String StorgePath="/com/event_managment_system/";
     public static Scene scene;
     public static Stage stage;
     public static Attendee user;
     public static Organizer org;
-    public static FileHandler<Event> eventFile=new FileHandler<>(StorgePath+"events.dat");
-    public static FileHandler<Attendee> attendeesFile=new FileHandler<>(StorgePath+"attendees.dat");
-    public static FileHandler<Organizer> OrganizerFile=new FileHandler<>(StorgePath+"organizers.dat");
+    public static FileHandler<Event> eventFile=new FileHandler<>(StorgePath+"Storage/events.dat");
+    public static FileHandler<Attendee> attendeesFile=new FileHandler<>(StorgePath+"Storage/attendees.dat");
+    public static FileHandler<Organizer> OrganizerFile=new FileHandler<>(StorgePath+"Storage/organizers.dat");
 
     @Override
     public void start(Stage stage) throws IOException {
