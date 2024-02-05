@@ -1,34 +1,20 @@
 package com.event_managment_system.Controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.net.URLConnection;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.UUID;
-
 import com.event_managment_system.App;
 import com.event_managment_system.entities.Event;
 import com.event_managment_system.entities.Organizer;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.control.Label;
@@ -40,9 +26,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.fxml.Initializable;
 import java.util.ArrayDeque;
 import java.util.Deque;
+
 
 public class AttendeeHomePageController implements Initializable{
 
@@ -146,6 +134,12 @@ public class AttendeeHomePageController implements Initializable{
     @FXML
     private VBox accountVBox;
 
+    @FXML
+    private Button registerButton;
+
+    @FXML
+    private Label registerLable;
+
     private static final double SCROLL_THRESHOLD = 0.75;
     private boolean loading = false;
 
@@ -171,15 +165,9 @@ public class AttendeeHomePageController implements Initializable{
         this.filterChoiceBox3.getItems().addAll(this.searchChoise);
         this.filterChoiceBox3.setValue(searchChoise[0]);
 
-        try {
-            Image originalImage = new Image("https://picsum.photos/10/10?random=728");
-            this.profilePic.setImage(originalImage);
-            this.profilePic.setFitWidth(150);
-            this.profilePic.setFitHeight(100);
-        
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.profilePic.setImage(App.loadImage(App.user.imageStream()));
+        Circle clip = new Circle(this.profilePic.getFitWidth()/2, this.profilePic.getFitHeight()/2, 50);
+        this.profilePic.setClip(clip);
     }
     
     public void addToeventContentVBox(Event event){
@@ -187,17 +175,51 @@ public class AttendeeHomePageController implements Initializable{
         newTab.setOnMouseClicked(e->fullDisplay(event));
         this.eventContentVBox.getChildren().add(newTab);
     }
+    public void fullDisplayOrganizer(Organizer organizer){
+        loading=true;
+        organizerScrollPane1.setVvalue(0);
+        tabPane.getSelectionModel().select(tabPane.getTabs().get(1));
+        this.organizerContentVBox1.getChildren().clear();
+        this.organizerContentVBox1.getChildren().add(new OrganizerFullInfo(organizer));
+    }
 
     public void fullDisplay(Event event){
         loading=true;
         eventScrollPane.setVvalue(0);
         tabPane.getSelectionModel().select(tabPane.getTabs().get(0));
         this.eventContentVBox.getChildren().clear();
+        if(event.canRegister(App.user)){
+            this.registerButton.setVisible(true);
+            this.registerButton.setText("Register");
+            this.registerButton.setOnAction(e->Register(event));
+        }
+        if(event.isregisted(App.user) && !event.hasEventPassed()){
+            this.registerButton.setVisible(true);
+            this.registerButton.setText("Unregister");
+            this.registerButton.setOnAction(e->unRegister(event));
+        }
         this.eventContentVBox.getChildren().add(new EventFullInfo(event));
+    }
+    public void unRegister(Event event){
+        event.removeAttendee(App.user);
+        App.user.RemoveEventRegstord(event);
+        App.eventFile.saveToFile();
+        App.attendeesFile.saveToFile();
+        this.registerButton.setVisible(false);
+        this.registerLable.setVisible(true);
+    }
+    public void Register(Event event){
+        event.addAttendee(App.user);
+        App.user.addEventAttended(event);
+        App.eventFile.saveToFile();
+        App.attendeesFile.saveToFile();
+        this.registerButton.setVisible(false);
+        this.registerLable.setVisible(true);
     }
 
     public void addToOrganizerContentVBox(Organizer organizer){
         OrganizerTabDetail newTab=new OrganizerTabDetail(organizer);
+        newTab.setOnMouseClicked(e->fullDisplayOrganizer(organizer));
         this.organizerContentVBox1.getChildren().add(newTab);
     }
     public void addToeventSearchContentVBox(Event event){
@@ -214,6 +236,8 @@ public class AttendeeHomePageController implements Initializable{
     public void handleFilterChange(ActionEvent event) {
         loading=false;
         String selectedFilter = filterChoiceBox.getValue();
+        this.registerButton.setVisible(false);
+        this.registerLable.setVisible(false);
         if (selectedFilter.equals(browseChoise[0])) {
             this.eventContentVBox.getChildren().clear();
             EventStack.clear();

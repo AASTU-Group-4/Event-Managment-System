@@ -1,10 +1,14 @@
 package com.event_managment_system.entities;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import com.event_managment_system.App;
+
 import java.time.LocalDate;
 
 public class Attendee implements Serializable, root {
@@ -119,6 +123,10 @@ public class Attendee implements Serializable, root {
         this.eventsAttended.add(event.getId());
         updateTimestamp();
     }
+    public void RemoveEventRegstord(Event event){
+        this.eventsAttended.remove(event.getId());
+        updateTimestamp();
+    }
 
     public Date getRegistrationTimestamp() {
         return registrationTimestamp;
@@ -135,6 +143,10 @@ public class Attendee implements Serializable, root {
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
         updateTimestamp();
+    }
+    public InputStream imageStream(){
+        String imagePath = App.imageStorgePath + this.profilePictureUrl;
+       return getClass().getResourceAsStream(imagePath);
     }
 
     private void updateTimestamp() {

@@ -1,10 +1,13 @@
 package com.event_managment_system.entities;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import com.event_managment_system.App;
 
 public class Event implements Serializable , root{
     private static final long serialVersionUID = 1L;
@@ -127,15 +130,23 @@ public class Event implements Serializable , root{
     public List<String> getEventImageUrl() {
         return eventImageUrl;
     }
+    public List<InputStream> allImageStream(){
+        List<InputStream> all=new ArrayList<>();
+        for(String str:this.eventImageUrl){
+            all.add(getClass().getResourceAsStream(App.imageStorgePath+str));
+        }
+       return all;
+    }
     public void addEventImageUrl(String url){
         this.eventImageUrl.add(url);
     }
-    
     public void setEventImageUrl(List<String> eventImageUrl) {
         this.eventImageUrl = eventImageUrl;
         updateTimestamp();
     }
-
+    public boolean isregisted(Attendee person){
+        return (this.attendees.contains(person.getId()))? true:false;
+    }
     public List<UUID> getAttendees() {
         return attendees;
     }
@@ -147,8 +158,11 @@ public class Event implements Serializable , root{
 
     public void addAttendee(Attendee attendee) {
         this.attendees.add(attendee.getId());
-        updateTimestamp();
     }
+    public void removeAttendee(Attendee attendee){
+        this.attendees.remove(attendee.getId());
+    }
+
     public boolean isFull(){
         return this.attendees.size()<capacity? false:true;
     }
@@ -163,5 +177,11 @@ public class Event implements Serializable , root{
     public boolean hasRegistrationPassed() {
         Date currentDate = new Date();
         return this.registrationDeadline.before(currentDate);
+    }
+    public boolean canRegister(Attendee attendee){
+        if(hasEventPassed()||hasRegistrationPassed()||isFull()||isregisted(attendee)){
+            return false;
+        }
+        return true;
     }
 }

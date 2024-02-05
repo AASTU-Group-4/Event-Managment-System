@@ -1,6 +1,8 @@
 package com.event_managment_system.DataManager;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import com.event_managment_system.entities.root;
 import java.io.*;
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class FileHandler<T extends root> {
     }
 
     public void saveToFile() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName, false))) {
             oos.writeObject(this.data);
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,6 +49,7 @@ public class FileHandler<T extends root> {
     }
     public void setData(List<T> inData) {
         this.data = inData;
+        saveToFile();
     }
     
     public void addItem(T item) {
@@ -77,6 +80,8 @@ public class FileHandler<T extends root> {
 
     public void download() {
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
         File jsonFile = new File(fileName.replace(".dat", ".json"));
         try {
             objectMapper.writeValue(jsonFile, data);

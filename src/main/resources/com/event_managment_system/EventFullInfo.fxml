@@ -15,11 +15,11 @@
 
 <HBox id="MainContentHbox" fx:id="MainContentHbox" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1100.0" prefWidth="810.0" stylesheets="@css/EventFullInfo.css" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox id="mainLeftContent" fx:id="mainLeftContent" prefHeight="897.0" prefWidth="264.0">
+      <VBox id="mainLeftContent" fx:id="mainLeftContent" prefHeight="897.0" prefWidth="264.0" spacing="10.0">
          <children>
-            <ImageView id="LogoImage" fx:id="LogoImage" fitHeight="307.0" fitWidth="290.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="LogoImage" fx:id="LogoImage" fitHeight="307.0" fitWidth="261.0" pickOnBounds="true">
                <image>
-                  <Image url="@image/gtav.png" />
+                  <Image url="@../../../../../../learning/output.png" />
                </image>
             </ImageView>
             <ScrollPane id="ImageListScrollPane" fx:id="ImageListScrollPane" hbarPolicy="NEVER" prefHeight="759.0" prefWidth="290.0">
@@ -97,7 +97,7 @@
                                     <Label id="eventVenueLable" fx:id="eventCapacityLable11" prefHeight="28.0" prefWidth="139.0" />
                                  </children>
                               </HBox>
-                              <Label id="eventAvailableLable" fx:id="eventAvailableLable" alignment="CENTER" prefHeight="35.0" prefWidth="237.0" textFill="#1528f2">
+                              <Label id="eventAvailableLable" fx:id="eventAvailableLable" alignment="CENTER" prefHeight="35.0" prefWidth="237.0" textFill="#16f061">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -116,29 +116,32 @@
             <Label id="AgendaLable" fx:id="AgendaLable" prefHeight="30.0" prefWidth="489.0" text="Agenda:" />
             <ScrollPane id="eventAgendaScrollpane" fx:id="eventAgendaScrollpane" prefHeight="292.0" prefWidth="493.0">
                <content>
-                  <GridPane id="eventAgendaGridpane" fx:id="eventAgendaGridpane" hgap="2.0" prefHeight="41.0" prefWidth="542.0">
+                  <GridPane id="eventAgendaGridpane" fx:id="eventAgendaGridpane" gridLinesVisible="true" hgap="2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="41.0" prefWidth="542.0">
                      <columnConstraints>
                         <ColumnConstraints fx:id="eventActivityColumn" hgrow="SOMETIMES" maxWidth="317.33331298828125" minWidth="10.0" prefWidth="296.66668701171875" />
                         <ColumnConstraints fx:id="eventStartTimeColumn" hgrow="SOMETIMES" maxWidth="190.0" minWidth="10.0" prefWidth="139.6666259765625" />
                         <ColumnConstraints fx:id="eventEndTimeColumn" hgrow="SOMETIMES" maxWidth="177.6666259765625" minWidth="10.0" prefWidth="114.3333740234375" />
                      </columnConstraints>
                      <rowConstraints>
-                        <RowConstraints fx:id="eventTitleRow" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints fx:id="eventTitleRow" minHeight="60.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label alignment="CENTER" prefHeight="41.0" prefWidth="306.0" text="Activity">
+                        <Label alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="292.0" text="Activity">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Label prefHeight="50.0" prefWidth="173.0" text="Start's" GridPane.columnIndex="1">
+                        <Label alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="133.0" text="Start's" GridPane.columnIndex="1">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Label prefHeight="49.0" prefWidth="134.0" text="End's" GridPane.columnIndex="2">
+                        <Label alignment="CENTER" contentDisplay="TOP" minHeight="-Infinity" minWidth="-Infinity" prefHeight="57.0" prefWidth="134.0" text="End's" GridPane.columnIndex="2">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
                      </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
                   </GridPane>
                </content>
             </ScrollPane>

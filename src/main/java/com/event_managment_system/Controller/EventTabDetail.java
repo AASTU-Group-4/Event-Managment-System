@@ -43,7 +43,7 @@ public class EventTabDetail extends AnchorPane {
         return this.event;
     }
     private void initializeUI() {
-        eventLogo = new ImageView(new Image(getClass().getResource(App.StorgePath + "image/no-image.png").toExternalForm()));
+        eventLogo = new ImageView(App.loadImage(event.allImageStream().get(0)));
         eventLogo.setFitWidth(164);
         eventLogo.setFitHeight(108);
         eventLogo.setId("eventLogo"); // Set the ID
@@ -124,7 +124,7 @@ public class EventTabDetail extends AnchorPane {
         updatedLabel.setText(timeFormat.format(event.getLastUpdateTimestamp()) + "/" + dateFormat.format(event.getLastUpdateTimestamp()));
         venueLabel.setText(event.getVenue());
         organizerLabel.setText(App.OrganizerFile.getItemById(event.getOrganizerId()).getName());
-        if((this.event.getDateTime()!=null && this.event.hasEventPassed()) || (this.event.getRegistrationDeadline()!=null && this.event.hasRegistrationPassed())){
+        if(this.event.hasEventPassed()|| this.event.hasRegistrationPassed() || this.event.isFull()){
             registrationLabel.setText("Close");
             registrationLabel.setTextFill(Color.RED);
             registrationLabel.setFont(Font.font("System", FontWeight.BOLD, 16.0));

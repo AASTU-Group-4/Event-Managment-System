@@ -179,7 +179,7 @@ public class AttendeeSignUpController implements Initializable {
             LocalDate utilDate = DateOfBirthFiled.getValue();
             attendee.setDateOfBirth(utilDate);
             attendee.setGender(genderField.getValue());
-            attendee.setProfilePictureUrl(ProfilePicLinkFiled.getText());
+            attendee.setProfilePictureUrl(App.downloadPic(ProfilePicLinkFiled.getText()));
             App.attendeesFile.addItem(attendee);
             App.setRoot("login");
         }

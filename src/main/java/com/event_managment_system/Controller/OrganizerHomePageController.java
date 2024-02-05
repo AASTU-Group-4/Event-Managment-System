@@ -1,40 +1,40 @@
 package com.event_managment_system.Controller;
 
-import java.io.IOException;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
-
+import java.util.UUID;
 import com.event_managment_system.App;
 import com.event_managment_system.entities.Event;
 import com.event_managment_system.entities.Organizer;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
+import javafx.fxml.Initializable;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
-public class OrganizerHomePageController implements Initializable {
 
-     @FXML
+public class OrganizerHomePageController implements Initializable{
+
+    @FXML
     private Pane mainPane;
 
     @FXML
@@ -60,57 +60,45 @@ public class OrganizerHomePageController implements Initializable {
 
     // Event Tab
     @FXML
-    private Tab BrowseEvent;
+    private Tab PreviousEvent;
 
     @FXML
-    private AnchorPane eventAnchorPane;
+    private AnchorPane previousEventAnchorPane;
 
     @FXML
-    private VBox eventVBox;
+    private VBox PreviousEventVBox;
 
     @FXML
-    private ChoiceBox<String> filterChoiceBox;
+    private ScrollPane PreviousEventScrollPane;
 
     @FXML
-    private ScrollPane eventScrollPane;
-
-    @FXML
-    private VBox eventContentVBox;
+    private VBox PreviousEventContentVBox;
 
     // Organizer Tab
     @FXML
-    private Tab NewEvent;
+    private Tab UpcomingEventTab;
+
+    @FXML
+    private AnchorPane UpcomingEventAnchorPane;
+
+    @FXML
+    private VBox UpcomingEventVBox;
+
+    @FXML
+    private ScrollPane UpcomingEventScrollPane1;
+
+    @FXML
+    private VBox UpcomingEventContentVBox1;
+
+    // Search Tab
+    @FXML
+    private Tab NewEventTab;
 
     @FXML
     private AnchorPane NewEventAnchorPane;
 
-    // Search Tab
     @FXML
-    private Tab Search;
-
-    @FXML
-    private AnchorPane searchAnchorPane;
-
-    @FXML
-    private VBox searchVBox;
-
-    @FXML
-    private ChoiceBox<String> filterChoiceBox3;
-
-    @FXML
-    private HBox searchHBox;
-
-    @FXML
-    private TextField SearchKeyInput;
-
-    @FXML
-    private Button SearchButton;
-
-    @FXML
-    private ScrollPane SearchScrollPane11;
-
-    @FXML
-    private VBox SearchContentVBox11;
+    private VBox NewEventVBox;
 
     // Account Tab
     @FXML
@@ -121,48 +109,41 @@ public class OrganizerHomePageController implements Initializable {
 
     @FXML
     private VBox accountVBox;
-    private static final double SCROLL_THRESHOLD = 0.75;
-    private boolean loading = false;
-
-
-    private String[] browseChoise={"Upcoming", "Previous", "Regesterd", "History"};
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         App.stage.setWidth(850);
         App.stage.setHeight(750);
         this.userNameLabel.setText(App.org.getName());
+        this.profilePic.setImage(App.loadImage(App.org.getMainLogo()));
+        Circle clip = new Circle(this.profilePic.getFitWidth()/2, this.profilePic.getFitHeight()/2, 50);
+        this.profilePic.setClip(clip);
     }
-
-    
-    private static Date parseDate(String dateString, SimpleDateFormat dateFormat) {
-        try {
-            return dateFormat.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
+    public void browseHistroy(){
+        PreviousEventContentVBox.getChildren().clear();
+        for(UUID id: App.org.getEventsOrganized()){
+            Event event=App.eventFile.getItemById(id);
+            if(event.hasEventPassed()){
+                EventTabDetail newTab=new EventTabDetail(event);
+                newTab.setOnMouseClicked(e->PreviousEventFullDisplay(event));
+                this.PreviousEventContentVBox.getChildren().add(newTab);
+            }
         }
     }
-
-    public void browseEvent() {
-        this.filterChoiceBox.getItems().addAll(browseChoise);
-        this.filterChoiceBox.setValue(browseChoise[0]);
+    
+    public void PreviousEventFullDisplay(Event event){
+        tabPane.getSelectionModel().select(tabPane.getTabs().get(0));
+        this.PreviousEventContentVBox.getChildren().clear();
+        this.PreviousEventContentVBox.getChildren().add(new EventFullInfo(event));
     }
-
-    public void addToeventContentVBox(Event event){
-        EventTabDetail newTab=new EventTabDetail(event);
-        this.eventContentVBox.getChildren().add(newTab);
-    }
-    public void handleFilterChange(ActionEvent event) {
-        String selectedFilter = filterChoiceBox.getValue();
-        System.out.println(selectedFilter);
-    }
-
-    public void handleScroll(ScrollEvent event) {
-        double vValue = eventScrollPane.getVvalue();
-
-        if (vValue > SCROLL_THRESHOLD && !loading) {
-            eventScrollPane.setVvalue(0.7);
+    public void browseUpcoming(){
+        UpcomingEventContentVBox1.getChildren().clear();
+        for(UUID id: App.org.getEventsOrganized()){
+            Event event=App.eventFile.getItemById(id);
+            if(!event.hasEventPassed()){
+                EventTabDetail newTab=new EventTabDetail(event);
+                this.UpcomingEventContentVBox1.getChildren().add(newTab);
+            }
         }
     }
     

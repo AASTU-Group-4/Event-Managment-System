@@ -1,10 +1,13 @@
 package com.event_managment_system.entities;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import com.event_managment_system.App;
 
 public class Organizer implements Serializable, root {
     private static final long serialVersionUID = 1L;
@@ -139,5 +142,15 @@ public class Organizer implements Serializable, root {
 
     private void updateTimestamp() {
         this.lastUpdateTimestamp = new Date();
+    }
+    public List<InputStream> allImageStream(){
+        List<InputStream> all=new ArrayList<>();
+        for(String str:this.logoUrls){
+            all.add(getClass().getResourceAsStream(App.imageStorgePath+str));
+        }
+       return all;
+    }
+    public InputStream getMainLogo(){
+        return getClass().getResourceAsStream(App.imageStorgePath+this.logoUrls.get(0));
     }
 }

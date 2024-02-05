@@ -2,8 +2,6 @@ package com.event_managment_system.entities;
 
 import java.io.Serializable;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 public class Activity implements Serializable {
         private static final long serialVersionUID = 1L;

@@ -51,7 +51,7 @@ public class OrganizerTabDetail extends AnchorPane {
         return this.organizer;
     }
     private void initializeUI() {
-        eventLogo = new ImageView(new Image(getClass().getResource(App.StorgePath + "image/no-image.png").toExternalForm()));
+        eventLogo = new ImageView(App.loadImage(organizer.allImageStream().get(0)));
         eventLogo.setFitWidth(164);
         eventLogo.setFitHeight(108);
         eventLogo.setId("eventLogo"); // Set the ID
@@ -123,6 +123,5 @@ public class OrganizerTabDetail extends AnchorPane {
         this.PhoneNumberLable.setText(organizer.getPhoneNumber());
         this.socialMediaLink.setText(organizer.getSocialMediaLinks());
         this.creationTimeLable.setText(timeFormat.format(organizer.getCreationTimestamp()) + "/" + dateFormat.format(organizer.getCreationTimestamp()));
-    }
-       
+    }  
 }

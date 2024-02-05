@@ -151,7 +151,7 @@ public class OrganizerSignUpController  implements Initializable  {
             organizer.setPhoneNumber(phoneNumberField.getText());
             organizer.setAddress(addressField.getText());
             organizer.setDescription(DescriptionFiled.getText());
-            organizer.setLogoUrls(new ArrayList<>(List.of(logoField.getText())));
+            organizer.addLogoUrl(App.downloadPic(logoField.getText()));
             organizer.setSocialMediaLinks(websiteUrlField.getText());
             App.OrganizerFile.addItem(organizer);
             App.setRoot("login");

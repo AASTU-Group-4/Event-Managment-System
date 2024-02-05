@@ -17,18 +17,15 @@ public class Agenda implements Serializable {
         return activities;
     }
 
+    public boolean isEmpty(){
+        return this.activities.isEmpty();
+    }
+
     public void setActivities(List<Activity> activities) {
         this.activities = activities;
     }
 
     public void addActivity(Activity activity) {
         this.activities.add(activity);
-    }
-    public String toString() {
-        StringBuilder sb = new StringBuilder("Agenda:\n");
-        for (Activity activity : activities) {
-            sb.append(activity).append("\n");
-        }
-        return sb.toString();
     }
 }
